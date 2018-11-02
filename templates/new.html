@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>最新收录 - {{sitename}} 磁力链接,磁力搜索</title>
+<meta name="keywords" content=""/>
+<meta name="description" content="电影种子,磁力链接,迅雷链接,BT下载,尽在{{sitename}}"/>
+<meta name="viewport" content="width=device-width"/>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='default.css') }}"/>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}"/>
+</head>
+<body>
+<div id="wrapper">
+<div class="top-bar">
+<span class="first"><a href="/">种子搜索</a></span>
+<span><a href="{{url_for('tag')}}">标签</a></span>
+<span><a href="{{url_for('weekhot')}}">排行</a></span>
+</div>
+<div class="header-div">
+<form class="search-form"  action="{{url_for('search')}}" method="POST">
+<a href="/" ><img src="{{url_for('static',filename='logo_s.png')}}"  class="nav-logo"/></a>
+{{form.hidden_tag()}}
+{{form.search(id="search")}}
+{{form.submit(class="blue",id="btnSearch")}}
+</form>
+</div>
+
+<div id="sort-bar">
+<a href="{{url_for('weekhot')}}">周排行</a>
+<a href="{{url_for('new')}}">最新收录</a>
+</div>
+
+<div id="content">
+
+<div id="wall">
+<div class="search-statu">
+<span>TOP50:</span>
+</div>
+<div class="search-item">
+<ol>
+{% for hash in newest %} 
+<li>
+<div class="item-title">
+<a href="{{url_for('detail',info_hash=hash.info_hash)}}" target="_blank">{{hash.name}}</a><span class="cpill blue-pill">{{hash.requests}}<span>
+</span></span></div>
+</li>
+{% endfor %} 
+</ol>
+</div>
+</div>
+
+<div class="push">
+</div>
+</div>
+
+     {%include'footer.html'%}

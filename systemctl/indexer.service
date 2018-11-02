@@ -1,0 +1,14 @@
+[Unit]
+Description=Sphinx indexer
+After=network.target
+
+[Service]
+User=root
+Group=root
+Type=oneshot 
+RemainAfterExit=yes
+ExecStart=/usr/local/sphinx-jieba/bin/indexer -c /root/zsky/sphinx.conf film --rotate
+
+[Install]
+WantedBy=multi-user.target
+

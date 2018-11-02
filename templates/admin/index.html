@@ -1,0 +1,41 @@
+{% extends 'admin/master.html' %}
+{% block body %}
+{{ super() }}
+<div class="row-fluid">
+
+    <div>
+        {% if current_user.is_authenticated %}
+        <h4>{{current_user.name}} 欢迎回来！</h4>
+        <p class="lead"></p>
+<span class="label label-success">数据概览</span><p>
+	<div class="alert alert-success alert-dismissable">
+	</h4> 共爬取到 {{total}} 条资源, 今日新增 {{today}} 条
+			</div>    
+
+        {% else %}
+
+        <form method="POST" action="" class='span6 offset4'>
+            {{ form.hidden_tag() if form.hidden_tag }}
+            {% for f in form if f.type != 'CSRFTokenField' %}
+            <div>
+            {{ f.label }}
+            {{ f }}
+            {% if f.errors %}
+            <ul>
+                {% for e in f.errors %}
+                <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">登录</button>
+            <a class="btn " href="/"></i>返回</a>
+        </form>
+
+        {{ link | safe }}
+        {% endif %}
+    </div>
+
+</div>
+{% endblock body %}

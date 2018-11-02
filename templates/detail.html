@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>{{hash['name'].encode('utf8')}} - {{sitename}} 磁力链接,磁力搜索</title>
+<meta name="keywords" content="{%for fenci in fenci_list%}{{fenci.encode('utf8')}},{%endfor%}HOTDHT,磁力链接,磁力搜索"/>
+<meta name="description" content="电影种子,磁力链接,迅雷链接,BT下载,尽在{{sitename}}"/>
+<meta name="viewport" content="width=device-width"/>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='default.css') }}"/>
+<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}"/>
+</head>
+<body>
+<div id="wrapper">
+<div class="top-bar"><span class="first"><a href="/">种子搜索</a></span>
+<span><a href="{{url_for('tag')}}">标签</a></span>
+<span><a href="{{url_for('weekhot')}}">排行</a></span>
+</div>
+<div class="header-div">
+<form class="search-form"  action="{{url_for('search')}}" method="POST">
+<a href="/" ><img src="{{url_for('static',filename='logo_s.png')}}"  class="nav-logo"/></a>
+{{form.hidden_tag()}}
+{{form.search(id="search")}}
+{{form.submit(class="blue",id="btnSearch")}}
+</form>
+</div>
+
+<div id="content">
+<div id="wall">
+<h2>{{hash['name'].encode('utf8')}}</h2>
+<div class="detail-panel detail-width">
+<table class="detail-table detail-width">
+<tbody>
+<tr class="detail-header-bg">
+<th>文件类型</th>
+<th>创建时间</th>
+<th>热度</th>
+<th>文件大小</th>
+<th>文件数量</th>
+</tr>
+<tr>
+<td>{{hash['category']}}</td>
+<td>{{hash['create_time']|todate}}</td>
+<td>{{hash['requests']}}</td>
+<td>
+{% if hash['length']>1073741824 %}
+{{(hash['length']/1073741824)|round(2)}}G
+{% else %}{{(hash['length']/1048576)|round(2)}}M
+{%endif%}
+</td>
+<td>
+{{(hash.info_hash|filelist)|count}}
+</td>
+</tr>
+</tbody>
+</table>
+<div class="detail-panel detail-width">
+<div class="panel-header">磁力链接 <input style="float:right; margin-right:16px;" id="copy1" type="button" data-clipboard-target="magnet" value="复制磁力链接" class="">&nbsp;</div>
+<div class="panel-body">
+<div id="magnet">
+<img src="{{ url_for('static', filename='magnet.png')}}" ><a href="magnet:?xt=urn:btih:{{hash['info_hash'] | upper}}">magnet:?xt=urn:btih:{{hash['info_hash'] | upper}}</a>
+</div>
+</div>
+</div>
+<div class="detail-panel detail-width">
+<div class="panel-header">迅雷下载 <input style="float:right; margin-right:16px;" id="copy2" type="button" data-clipboard-target="xlurl" value="复制迅雷链接" class="">&nbsp;</div>
+<div class="panel-body">
+<div id="xlurl">
+{% set magneturl=("magnet:?xt=urn:btih:"~hash['info_hash'] | upper) %}
+<img src="{{ url_for('static', filename='xunlei.png')}}" ><a href="thunder://{{magneturl|tothunder}}">thunder://{{magneturl|tothunder}}</a>
+</div>
+</div>
+</div>
+
+<div class="detail-panel detail-width">
+<div class="panel-header">种子标签</div>
+<div class="panel-body">
+{%for fenci in fenci_list%}
+<a href="{{url_for('search_results',query=fenci,page=1)}}">{{fenci.encode('utf8')}}</a>&nbsp;&nbsp;
+{%endfor%}
+</div>
+</div>
+     
+<div class="detail-panel detail-width">
+<div class="panel-header">
+文件列表
+</div>
+<div class="panel-body">
+<ol>
+{%for f in (hash.info_hash|filelist)%}
+<li>{{f['path']}}&nbsp;<span class="cpill blue-pill">{{f['length']|filesizeformat}}</span></li>
+{% endfor %}
+</ol>
+</div>
+</div>
+
+     
+<div class="detail-panel detail-width">
+<div class="panel-header">友情提示</div>
+<div class="panel-body">
+<p>{{hash.name}}</p>
+<p>本站已经屏蔽了99%的非法链接，若本链接侵犯你的权利，请联系下面的邮箱进行举报！ </p>
+<p>亲，你造吗？将网页分享给您的基友，下载的人越多速度越快哦！</p>
+</div>
+</div>
+<div class="detail-panel detail-width">
+<div class="panel-header">
+投诉异议
+</div>
+<div class="panel-body">
+<p>
+版权投诉/Complain Email：<a class="__cf_email__"  >admin@hao123.Com</a>
+</p>
+</div>
+</div>
+</div>
+<div class="push">
+</div>
+</div>
+</div>
+</div>
+     
+     {%include'footer.html'%}

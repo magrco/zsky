@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>{{sitename}} - 种子搜索网站,最快的磁力链接搜索引擎</title>
+<meta name="keywords" content=""/>
+<meta name="description" content="{{sitename}},种子搜索神器,为您提供高效精准的磁力链接搜索服务!"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='default.css') }}"/>
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='ciliss_apple.jpg') }}"/>
+
+</head>
+<body>
+<div id="wrapper">
+<div class="top-bar"><span class="first"><a href="/">种子搜索</a></span>
+<span><a href="{{url_for('tag')}}">标签</a></span>
+<span><a href="{{url_for('weekhot')}}">排行</a></span>
+</div>
+<div id="first-content">
+<div id="center-box-wrapper">
+<div id="center-box">
+<div id="center-logo">
+<a href="/"><img src="{{ url_for('static', filename='logo.png') }}" alt="{{sitename}}"/></a>
+<p><h1>{{sitename}}-最快的磁力链接搜索引擎</h1></p>
+</div>
+<div id="search-box">
+<form id="search-form" action="{{url_for('search')}}" method="POST">
+{{form.hidden_tag()}}
+{{form.search(id="search")}}
+{{form.submit(class="blue",id="btnSearch")}}
+</form>
+<div class="info-box">
+<ul>
+{%for k in keywords%}
+<li><a href="{{url_for('search_results',query=k.keyword,page=1)}}">{{k.keyword}}</a></li>
+{%endfor%}
+</ul>
+<p style="color:#000000; margin-top:10px;">总收录{{total}}条资源, 今日新增{{ today  if today else 0}}条</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="push"></div>
+</div>
+
+  {%include'footer.html'%}

@@ -1,0 +1,14 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root/zsky
+ExecStart=/usr/bin/gunicorn -k gevent  --error-logfile zsky_err.log  manage:app -b 127.0.0.1:8000 -w 4
+ExecReload=/bin/kill -s HUP $MAINPID  
+ExecStop=/bin/kill -s QUIT $MAINPID 
+
+[Install]
+WantedBy=multi-user.target

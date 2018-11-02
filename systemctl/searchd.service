@@ -1,0 +1,15 @@
+[Unit]
+Description=searchd daemon
+After=network.target
+
+[Service]
+User=root
+Group=root
+PIDFile=/usr/local/sphinx-jieba/var/log/searchd.pid
+ExecStart=/usr/local/sphinx-jieba/bin/searchd --config /root/zsky/sphinx.conf
+ExecReload=/bin/kill -s HUP $MAINPID  
+ExecStop=/bin/kill -s QUIT $MAINPID 
+
+[Install]
+WantedBy=multi-user.target
+

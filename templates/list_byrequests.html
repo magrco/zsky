@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>{{query}} - 搜索结果 - {{sitename}} 磁力链接,磁力搜索</title>
+<meta name="keywords" content=""/>
+<meta name="description" content="电影种子,磁力链接,迅雷链接,BT下载,尽在{{sitename}}"/>
+<meta name="viewport" content="width=device-width"/>
+<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='default.css') }}"/>
+<link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}"/>
+</head>
+<body>
+<div id="wrapper">
+<div class="top-bar"><span class="first"><a href="/">种子搜索</a></span>
+<span><a href="{{url_for('tag')}}">标签</a></span>
+<span><a href="{{url_for('weekhot')}}">排行</a></span>
+</div>
+<div class="header-div">
+<form class="search-form"  action="{{url_for('search')}}" method="POST">
+<a href="/" ><img src="{{url_for('static',filename='logo_s.png')}}"  class="nav-logo"/></a>
+{{form.hidden_tag()}}
+{{form.search(id="search")}}
+{{form.submit(class="blue",id="btnSearch")}}
+</form>
+
+</div>
+<div id="sort-bar">
+<a href="#"><b>热度</b></a>
+<a href="{{url_for('search_results_bylength',query=query,page=1)}}">文件大小</a>
+<a href="{{url_for('search_results_bycreate_time',query=query,page=1)}}">创建时间</a>
+<a href="{{url_for('search_results',query=query,page=1)}}">相关度</a>
+</div>
+<div id="content">
+<div id="wall">
+<div class="search-statu">
+<span>共找到 {{counts}} 条关于 {{query}} 的结果, 耗时 {{(taketime*1000)|int}} 毫秒</span>
+</div>
+<div class="adsense" style="position:relative"></div>
+<div class="col-md-8">
+{% for hash in hashs %}  
+<div class="search-item detail-width">
+<div class="item-title">
+<h3><a title="{{ hash.name }}" href="{{url_for('detail',info_hash=hash.info_hash)}}" target="_blank">{{ hash.name|replace(query, '<b>\\1</b>')|safe  }}</a></h3>
+</div>
+<div class="item-list">
+<ul>
+{%for f in (hash.info_hash|filelist)[:10]%}
+<li>{{f['path']|replace(query, '<b>\\1</b>')|safe}}&nbsp;<span class="lightColor">{{ f['length']|filesizeformat }}</span></li>
+{% endfor %}
+</ul>
+</div>
+<div class="item-bar">
+<span class="cpill fileType1">{{hash['category']}}</span>
+<span>创建时间：<b>{{ hash['create_time']|todate }}</b></span>
+<span>文件大小：
+{% if hash['length']>1073741824 %}
+<b class="cpill yellow-pill">{{(hash['length']/1073741824)|round(2)}}G</b>
+{% else %}<b class="cpill blue-pill">{{(hash['length']/1048576)|round(2)}}M</b>
+{%endif%}</span>
+<span>热度：<b>{{hash['requests']}}</b></span>
+<span><img src="{{ url_for('static', filename='img/link.png') }}"  /><a href="magnet:?xt=urn:btih:{{hash['info_hash'] | upper}}" >磁力链接</a></span>
+</div>
+</div>
+{% endfor %} 
+<div class="bottom-pager detail-width">
+
+    {%if pages<10%}
+		{%if page==1%}
+		<span>上一页</span>
+		{%else%}
+		<a href="{{ url_for('search_results_byrequests', query=query,page=page-1 )}}">上一页</a>
+		{%endif%}
+		
+		{%for i in range(1,page)%}
+		<a href="{{ url_for('search_results_byrequests', query=query,page=i) }}">{{i}}</a>
+		{%endfor%}
+		
+		<span>{{page}}</span>
+		
+		{%for i in range(page+1,pages)%}
+		<a href="{{ url_for('search_results_byrequests', query=query,page=i) }}">{{i}}</a>
+		{%endfor%}
+		
+		{%if page<pages%}
+		<a href="{{ url_for('search_results_byrequests', query=query,page=page+1) }}">下一页</a>
+		{%else%}
+		<span>下一页</span>
+		{%endif%}    
+		
+	{%else%}
+		
+		{%if page==1%}
+		<span>上一页</span>
+		{%else%}
+		<a href="{{ url_for('search_results_byrequests', query=query,page=page-1 )}}">上一页</a>
+		{%endif%}
+
+		{%if page>=6%}
+			{%for i in range(page-5,page)%}
+			<a href="{{ url_for('search_results_byrequests', query=query,page=i) }}">{{i}}</a>
+			{%endfor%}
+		{%else%}
+			{%for i in range(1,page)%}
+			<a href="{{ url_for('search_results_byrequests', query=query,page=i) }}">{{i}}</a>
+			{%endfor%}
+		{%endif%}
+		
+		<span>{{page}}</span>
+		
+		{%for i in range(page+1,page+5)%}
+		<a href="{{ url_for('search_results_byrequests', query=query,page=i) }}">{{i}}</a>
+		{%endfor%}
+	
+		{%if page<pages%}
+		<a href="{{ url_for('search_results_byrequests', query=query,page=page+1) }}">下一页</a>
+		{%else%}
+		<span>下一页</span>
+		{%endif%}
+    {%endif%}
+    
+</div>
+</div>
+<div class="col-md-2">
+<div class="search-notice sidebar-width">电影磁力链接,电影bt种子下载,电影迅雷下载相关资源由用户搜索指令自动获取，结果来源于网络，本站不存储任何资料，亦不承担任何责任，请于24小时内删除！</div>
+<div id="latest-search" class="sidebar-width">
+<span class="latest-desc">大家对这些感兴趣：</span>
+{%for tag in tags%}
+<span><a href="{{url_for('search_results',query=tag.tag,page=1)}}">{{tag.tag}}</a></span>
+{%endfor%}
+</div>
+</div>
+</div>
+</div>
+<div class="push">
+</div>
+</div>
+
+     {%include'footer.html'%}
