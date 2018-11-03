@@ -6,9 +6,7 @@
 使用方法：
 ```Bash
 yum -y install git 
-
 git  clone https://github.com/magrco/zsky.git
-
 cd zsky&&sh zsky.sh
 ```
 
