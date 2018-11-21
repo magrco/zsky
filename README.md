@@ -2,7 +2,7 @@
 # 使用说明
 
 #### 纸上烤鱼是从浩瀚的DHT网络（UDP）中获取磁力链接（magnet）信息的搜索引擎，主要分为爬虫、网站、数据库、索引，爬虫基于socket、bencode库，网站基于flask库，数据库为mysql，索引为sphinx，请勿用于非法用途
-只是一个copy。
+只是一个copy。示例：http://dhtlink.com
 使用方法：
 ```Bash
 yum -y install git 
@@ -128,4 +128,4 @@ A：程序在开发之初就已经考虑到从这些程序迁移过来的问题�
 **Q：网站经常收到版权投诉，有没有好的解决办法？**
 
 A：除了删除投诉的影片数据外，你可以使用前端Nginx、后端gunicorn+爬虫+数据库+索引在不同主机上的模式，甚至多前端模式，这样 即使前端被主机商强行封机，也能保证后端数据的安全。如果有需求，请加群联系作者付费为你提供服务
-欢迎访问：http://dht.im 更多技术分享：http:www.magrco.com
+欢迎访问：http://dht.im 更多技术分享：http://www.magrco.com
